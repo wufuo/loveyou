@@ -1,0 +1,289 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0c0015 0%, #1a0a2e 50%, #0d0d0d 100%);
+    min-height: 100vh;
+    color: #fff;
+}
+
+/* 星空画布 */
+#starCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* 主容器 */
+#universe {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 标题 */
+header {
+    text-align: center;
+    padding: 30px 0;
+}
+
+header h1 {
+    font-size: 3em;
+    background: linear-gradient(45deg, #ff6b9d, #c44cff, #6b9dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(196, 76, 255, 0.5);
+    margin-bottom: 10px;
+}
+
+#welcomeMsg {
+    font-size: 1.2em;
+    color: #aaa;
+}
+
+/* 控制面板 */
+#controlPanel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.control-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-item input {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    outline: none;
+    width: 150px;
+}
+
+.control-item input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 创作区域 */
+#creationArea {
+    min-height: 300px;
+    margin-bottom: 30px;
+}
+
+#starsContainer,
+#cloudsContainer,
+#wishesContainer {
+    margin-bottom: 20px;
+}
+
+/* 星星样式 */
+.star {
+    display: inline-block;
+    font-size: 2em;
+    margin: 5px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    animation: twinkle 2s infinite;
+}
+
+.star:hover {
+    transform: scale(1.3);
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* 云朵样式 */
+.cloud {
+    display: inline-block;
+    font-size: 2.5em;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cloud:hover {
+    transform: translateY(-5px);
+}
+
+/* 祝福卡片 */
+.wish-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border-left: 4px solid #ff6b9d;
+    animation: slideIn 0.5s ease;
+}
+
+.wish-card .wish-author {
+    font-size: 0.9em;
+    color: #ff6b9d;
+    margin-bottom: 5px;
+}
+
+.wish-card .wish-text {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 按钮 */
+#actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(45deg, #ff6b9d, #c44cff);
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(196, 76, 255, 0.3);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196, 76, 255, 0.4);
+}
+
+.action-btn.sync {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+}
+
+.action-btn.load {
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+}
+
+.action-btn.cancel {
+    background: linear-gradient(45deg, #f44336, #d32f2f);
+}
+
+/* 模态框 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #1a0a2e, #2d1b4e);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.modal-content textarea {
+    width: 100%;
+    height: 100px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1em;
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.modal-content textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* 提示消息 */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 200;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    
+    #controlPanel {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
