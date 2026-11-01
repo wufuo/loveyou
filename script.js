@@ -1,3 +1,10 @@
+// 检查 supabase 是否加载成功
+if (!window.supabase) {
+    document.getElementById('toast').textContent = '加载失败，请刷新';
+    document.getElementById('toast').classList.add('show');
+    return;
+}
+
 // ================= 配置 =================
 // 在这里填入你的 Supabase 信息
 const SUPABASE_URL = 'https://ygldbnljuygsdndfqecp.supabase.co';
