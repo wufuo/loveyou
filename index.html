@@ -1,10 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta http-equiv="refresh" content="0; url=love.html">
-    <title>跳转中...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ 爱心宇宙 ✨</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <a href="love.html">点击这里</a>
+    <!-- 星空背景 -->
+    <canvas id="starCanvas"></canvas>
+    
+    <!-- 主容器 -->
+    <div id="universe">
+        <!-- 顶部标题 -->
+        <header>
+            <h1>✨ 爱心宇宙 ✨</h1>
+            <p id="welcomeMsg">欢迎来到我们的宇宙</p>
+        </header>
+        
+        <!-- 控制面板 -->
+        <section id="controlPanel">
+            <div class="control-item">
+                <span>👤 用户:</span>
+                <input type="text" id="username" placeholder="输入你的名字" maxlength="20">
+            </div>
+            <div class="control-item">
+                <span>💖 星星:</span>
+                <span id="starCount">0</span>
+            </div>
+            <div class="control-item">
+                <span>☁️ 云朵:</span>
+                <span id="cloudCount">0</span>
+            </div>
+            <div class="control-item">
+                <span>💫 祝福:</span>
+                <span id="wishCount">0</span>
+            </div>
+        </section>
+        
+        <!-- 创作区域 -->
+        <section id="creationArea">
+            <div id="starsContainer"></div>
+            <div id="cloudsContainer"></div>
+            <div id="wishesContainer"></div>
+        </section>
+        
+        <!-- 操作按钮 -->
+        <section id="actions">
+            <button id="addStar" class="action-btn">✨ 添加星星</button>
+            <button id="addCloud" class="action-btn">☁️ 添加云朵</button>
+            <button id="addWish" class="action-btn">💖 写祝福</button>
+            <button id="syncBtn" class="action-btn sync">💾 同步到云端</button>
+            <button id="loadBtn" class="action-btn load">📥 加载云端数据</button>
+        </section>
+        
+        <!-- 祝福输入框 -->
+        <div id="wishModal" class="modal">
+            <div class="modal-content">
+                <h3>💖 写下你的祝福</h3>
+                <textarea id="wishText" placeholder="输入你想说的话..." maxlength="200"></textarea>
+                <div class="modal-actions">
+                    <button id="confirmWish" class="action-btn">确认</button>
+                    <button id="cancelWish" class="action-btn cancel">取消</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提示消息 -->
+        <div id="toast" class="toast"></div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
