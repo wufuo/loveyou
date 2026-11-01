@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宇宙级浪漫 - Universe of Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);
+  min-height: 100vh;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* 星空动画 */
+#stars {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 流星 */
+.shooting-star {
+  position: fixed;
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, #fff, transparent);
+  animation: shoot 3s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes shoot {
+  0% { transform: translate(0, 0); opacity: 1; }
+  100% { transform: translate(-300px, 300px); opacity: 0; }
+}
+
+/* 用户选择界面 */
+#userScreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 30, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.user-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 50px 60px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-card h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, #ff6b9d, #c44569, #ff6b9d);
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradientMove {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.user-card p {
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.user-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.user-btn {
+  padding: 15px 50px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.user-btn.boy {
+  background: linear-gradient(45deg, #4facfe, #00f2fe);
+  color: #fff;
+}
+
+.user-btn.girl {
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  color: #fff;
+}
+
+.user-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 主应用 */
+#app {
+  display: none;
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 顶部天数显示 */
+.days-header {
+  text-align: center;
+  padding: 30px 0;
+  animation: fadeIn 0.5s ease;
+}
+
+.days-display {
+  font-size: 4rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.days-label {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5px;
+}
+
+.anniversary-date {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 10px;
+}
+
+/* 导航栏 */
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  padding: 10px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.95rem;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.nav-btn.active {
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* 卡片通用 */
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(5px);
+  animation: fadeInUp 0.5s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(255, 107, 157, 0.1);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* 回忆卡片 */
+.memory-card {
+  position: relative;
+}
+
+.memory-card .delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 107, 157, 0.2);
+  color: #ff6b9d;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.memory-card .delete-btn:hover {
+  background: #ff6b9d;
+  color: #fff;
+}
+
+.memory-card .edit-btn {
+  position: absolute;
+  top: 10px;
+  right: 50px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(79, 172, 254, 0.2);
+  color: #4facfe;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.memory-card .edit-btn:hover {
+  background: #4facfe;
+  color: #fff;
+}
+
+.memory-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #ff6b9d;
+}
+
+.memory-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 10px;
+}
+
+.memory-photo {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.memory-score {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  margin-top: 8px;
+}
+
+.memory-score.high { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+.memory-score.mid { background: rgba(255, 165, 0, 0.2); color: #ffa500; }
+.memory-score.low { background: rgba(128, 128, 128, 0.2); color: #888; }
+
+.memory-date {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 8px;
+}
+
+/* 碎碎念卡片 */
+.letter-card {
+  border-left: 3px solid;
+  padding-left: 20px;
+}
+
+.letter-from {
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.letter-msg {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.letter-date {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 8px;
+}
+
+.letter-card .delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 107, 157, 0.2);
+  color: #ff6b9d;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.letter-card .delete-btn:hover {
+  background: #ff6b9d;
+  color: #fff;
+}
+
+/* 打卡卡片 */
+.thing-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+.thing-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.thing-info {
+  flex: 1;
+}
+
+.thing-name {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.thing-count {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.thing-toggle {
+  width: 50px;
+  height: 28px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.thing-toggle.done {
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+}
+
+.thing-toggle.undone {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.thing-toggle::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.thing-toggle.done::after {
+  left: 25px;
+}
+
+/* 完成度统计 */
+.stats-card {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.stats-number {
+  font-size: 3rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stats-label {
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 5px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ff6b9d, #c44569);
+  transition: width 0.5s ease;
+}
+
+/* 徽章 */
+.badge-card {
+  text-align: center;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.badge-item {
+  text-align: center;
+  padding: 20px 10px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
+
+.badge-item.unlocked {
+  border-color: rgba(255, 107, 157, 0.3);
+  background: rgba(255, 107, 157, 0.05);
+}
+
+.badge-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+  filter: grayscale(100%);
+  opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.badge-item.unlocked .badge-icon {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+.badge-name {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.badge-item.unlocked .badge-name {
+  color: #ff6b9d;
+}
+
+/* 模态框 */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.show {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 25px;
+  padding: 35px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.modal-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 107, 157, 0.3);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1rem;
+  font-family: 'Noto Sans SC', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #ff6b9d;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* 底部按钮区 */
+.bottom-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 12px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 0.95rem;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.action-btn.primary {
+  background: linear-gradient(45deg, #ff6b9d, #c44569);
+  border-color: transparent;
+}
+
+.action-btn.primary:hover {
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+}
+
+/* Toast 提示 */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  padding: 12px 30px;
+  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-size: 0.95rem;
+  z-index: 1000;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+#toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* 内容区域切换 */
+.content-section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.content-section.active {
+  display: block;
+}
+
+/* 设置页 */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.setting-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.setting-value {
+  color: #ff6b9d;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.5;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+  .days-display { font-size: 2.5rem; }
+  .nav-btn { padding: 8px 15px; font-size: 0.85rem; }
+  .modal { padding: 25px; }
+  .badge-grid { grid-template-columns: repeat(2, 1fr); }
+  .user-card { padding: 35px 25px; margin: 20px; }
+  .user-card h1 { font-size: 1.8rem; }
+  .form-row { flex-direction: column; gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<!-- 用户选择界面 -->
+<div id="userScreen">
+  <div class="user-card">
+    <h1>✨ 宇宙级浪漫</h1>
+    <p>每一颗星星，都是爱的证明</p>
+    <div class="user-btns">
+      <button class="user-btn boy" onclick="loginAs('boy')">🌟 我是他</button>
+      <button class="user-btn girl" onclick="loginAs('girl')">💖 我是她</button>
+    </div>
+  </div>
+</div>
+
+<!-- 主应用 -->
+<div id="app">
+  <!-- 顶部天数 -->
+  <div class="days-header">
+    <div class="days-display" id="daysDisplay">0</div>
+    <div class="days-label">天</div>
+    <div class="anniversary-date" id="anniversaryDate"></div>
+  </div>
+
+  <!-- 导航栏 -->
+  <div class="nav-bar">
+    <button class="nav-btn active" onclick="showSection('memories')">💭 回忆</button>
+    <button class="nav-btn" onclick="showSection('letters')">💌 碎碎念</button>
+    <button class="nav-btn" onclick="showSection('things')">✅ 打卡</button>
+    <button class="nav-btn" onclick="showSection('badges')">🏆 徽章</button>
+    <button class="nav-btn" onclick="showSection('settings')">⚙️ 设置</button>
+  </div>
+
+  <!-- 回忆区 -->
+  <div class="content-section active" id="section-memories">
+    <div class="bottom-actions" style="margin-bottom: 20px;">
+      <button class="action-btn primary" onclick="openModal('memoryModal')">➕ 添加回忆</button>
+    </div>
+    <div id="memoriesList"></div>
+  </div>
+
+  <!-- 碎碎念区 -->
+  <div class="content-section" id="section-letters">
+    <div class="bottom-actions" style="margin-bottom: 20px;">
+      <button class="action-btn primary" onclick="openModal('letterModal')">✉️ 写碎碎念</button>
+    </div>
+    <div id="lettersList"></div>
+  </div>
+
+  <!-- 打卡区 -->
+  <div class="content-section" id="section-things">
+    <div class="card stats-card">
+      <div class="stats-number" id="completedCount">0/10</div>
+      <div class="stats-label">已解锁的浪漫</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+    <div id="thingsList"></div>
+  </div>
+
+  <!-- 徽章区 -->
+  <div class="content-section" id="section-badges">
+    <div class="card badge-card">
+      <div class="card-title">🏆 解锁的浪漫成就</div>
+      <div class="badge-grid" id="badgesGrid"></div>
+    </div>
+  </div>
+
+  <!-- 设置区 -->
+  <div class="content-section" id="section-settings">
+    <div class="card">
+      <div class="setting-row">
+        <span class="setting-label">📅 纪念日</span>
+        <span class="setting-value" id="settingAnniversary" onclick="openModal('settingsModal')" style="cursor:pointer">未设置</span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">👤 当前身份</span>
+        <span class="setting-value" id="settingCurrentUser">-</span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">☁️ 云端同步</span>
+        <span class="setting-value" id="settingSyncStatus">已连接</span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">💾 切换用户</span>
+        <button class="action-btn" style="padding:6px 16px;font-size:0.85rem" onclick="switchUser()">切换</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-actions" style="margin-top: 30px;">
+    <button class="action-btn" onclick="exportData()">📤 导出数据</button>
+    <button class="action-btn" onclick="showSection('settings')">⚙️ 设置</button>
+  </div>
+</div>
+
+<!-- 回忆模态框 -->
+<div class="modal-overlay" id="memoryModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="memoryModalTitle">添加回忆</div>
+      <button class="modal-close" onclick="hideModal('memoryModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">标题</label>
+      <input type="text" class="form-input" id="memTitle" placeholder="给这个回忆起个名字">
+    </div>
+    <div class="form-group">
+      <label class="form-label">内容</label>
+      <textarea class="form-textarea" id="memText" placeholder="记录这一刻的浪漫..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">心动指数</label>
+        <select class="form-select" id="memScore">
+          <option value="1">⭐ 1分</option>
+          <option value="2">⭐⭐ 2分</option>
+          <option value="3">⭐⭐⭐ 3分</option>
+          <option value="4" selected>⭐⭐⭐⭐ 4分</option>
+          <option value="5">⭐⭐⭐⭐⭐ 5分</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">照片链接</label>
+        <input type="text" class="form-input" id="memPhoto" placeholder="可选">
+      </div>
+    </div>
+    <button class="btn-primary" onclick="saveMemory()">保存</button>
+  </div>
+</div>
+
+<!-- 碎碎念模态框 -->
+<div class="modal-overlay" id="letterModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="letterModalTitle">写碎碎念</div>
+      <button class="modal-close" onclick="hideModal('letterModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">想说的话</label>
+      <textarea class="form-textarea" id="letterMsg" placeholder="今天想对你说什么..."></textarea>
+    </div>
+    <button class="btn-primary" onclick="saveLetter()">发送</button>
+  </div>
+</div>
+
+<!-- 设置模态框 -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">设置纪念日</div>
+      <button class="modal-close" onclick="hideModal('settingsModal')">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">📅 纪念日</label>
+      <input type="date" class="form-input" id="anniversaryDateInput">
+    </div>
+    <button class="btn-primary" onclick="saveSettings()">保存</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+// ==================== Supabase 配置 ====================
+const SUPABASE_URL = '你的Project URL';  // ← 替换这里
+const SUPABASE_ANON_KEY = '你的anon public key';  // ← 替换这里
+
+let supabase;
+let supabaseReady = false;
+let supabaseError = false;
+
+// ==================== 全局变量 ====================
+let currentUser = null;
+let memories = [];
+let letters = [];
+let done = new Set();
+let anniversaries = {};
+let badges = [];
+
+// 预设的打卡内容
+const THINGS = [
+  ['一起看日出', '🌅', '在山顶等待第一缕阳光'],
+  ['一起看日落', '🌇', '在海边看夕阳西下'],
+  ['一起看星星', '✨', '躺在草坪上看满天繁星'],
+  ['一起看雪', '❄️', '在雪地里打雪仗堆雪人'],
+  ['一起看雨', '🌧️', '在窗边听雨声聊天'],
+  ['一起看海', '🌊', '踩着沙滩听海浪声'],
+  ['一起爬山', '🏔️', '登顶俯瞰整个世界'],
+  ['一起坐地铁', '🚇', '手牵手体验人潮拥挤'],
+  ['一起看烟花', '🎆', '在夜空下许下心愿'],
+  ['一起淋雨', '🌧️', '在雨中奔跑大笑']
+];
+
+// ==================== 初始化 ====================
+function init() {
+  createStars();
+  createShootingStars();
+  
+  // 恢复登录状态
+  const savedUser = localStorage.getItem('currentUser');
+  if (savedUser) {
+    loginAs(savedUser);
+  }
+}
+
+// ==================== 星空动画 ====================
+function createStars() {
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const stars = [];
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.8 + 0.2,
+      speed: Math.random() * 0.02 + 0.01
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(star => {
+      star.opacity += Math.sin(Date.now() * star.speed) * 0.01;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.opacity)})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    stars.forEach(star => {
+      star.x = Math.random() * canvas.width;
+      star.y = Math.random() * canvas.height;
+    });
+  });
+}
+
+function createShootingStars() {
+  setInterval(() => {
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+    star.style.top = Math.random() * 30 + '%';
+    star.style.left = Math.random() * 70 + 30 + '%';
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), 3000);
+  }, 4000);
+}
+
+// ==================== 登录 ====================
+async function loginAs(user) {
+  currentUser = user;
+  localStorage.setItem('currentUser', user);
+
+  // 初始化 Supabase
+  if (!supabaseReady && !supabaseError) {
+    try {
+      supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      await loadFromSupabase(user);
+      supabaseReady = true;
+      document.getElementById('settingSyncStatus').textContent = '已连接';
+    } catch (err) {
+      console.error('Supabase 连接失败:', err);
+      supabaseError = true;
+      document.getElementById('settingSyncStatus').textContent = '离线模式';
+      loadLocal();
+    }
+  } else if (supabaseError) {
+    loadLocal();
+  } else {
+    await loadFromSupabase(user);
+  }
+
+  document.getElementById('userScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('settingCurrentUser').textContent = user === 'boy' ? '他' : '她';
+
+  updateDays();
+  renderAll();
+  toast('✅ 欢迎回来！');
+}
+
+// ==================== Supabase 云同步 ====================
+async function loadFromSupabase(user) {
+  try {
+    // 加载完成记录
+    const { data: doneData, error: doneErr } = await supabase
+      .from('completed_things')
+      .select('thing_index')
+      .eq('user_type', user);
+
+    if (doneErr) throw doneErr;
+    done = new Set((doneData || []).map(d => d.thing_index));
+
+    // 加载回忆
+    const { data: memData, error: memErr } = await supabase
+      .from('memories')
+      .select('*')
+      .eq('user_type', user)
+      .order('created_at', { ascending: false });
+
+    if (memErr) throw memErr;
+    memories = (memData || []).map(m => ({
+      id: m.id,
+      title: m.title,
+      text: m.text,
+      score: m.score,
+      photo: m.photo,
+      date: m.date
+    }));
+
+    // 加载碎碎念
+    const { data: letterData, error: letterErr } = await supabase
+      .from('letters')
+      .select('*')
+      .eq('user_type', user)
+      .order('created_at', { ascending: false });
+
+    if (letterErr) throw letterErr;
+    letters = (letterData || []).map(l => ({
+      id: l.id,
+      from: l.from_user,
+      msg: l.msg,
+      date: l.date
+    }));
+
+    // 加载设置
+    const { data: setData } = await supabase
+      .from('settings')
+      .select('anniversary')
+      .eq('user_type', user)
+      .single();
+
+    anniversaries[user] = setData?.anniversary || '';
+
+    // 加载徽章
+    const { data: badgeData, error: badgeErr } = await supabase
+      .from('badges')
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (badgeErr) throw badgeErr;
+    if (badgeData) {
+      badges = badgeData.map(b => [
+        b.icon,
+        b.name,
+        b.unlocked ? '已解锁' : '未解锁'
+      ]);
+    }
+
+    // 保存到本地作为备份
+    saveLocal();
+  } catch (err) {
+    console.error('加载云端数据失败:', err);
+    loadLocal();
+  }
+}
+
+async function saveToSupabase(user) {
+  if (supabaseError || !supabaseReady) return;
+
+  try {
+    // 保存设置
+    if (anniversaries[user]) {
+      const { data: existing } = await supabase
+        .from('settings')
+        .select('*')
+        .eq('user_type', user)
+        .single();
+
+      if (existing) {
+        await supabase
+          .from('settings')
+          .update({ anniversary: anniversaries[user] })
+          .eq('user_type', user);
+      } else {
+        await supabase
+          .from('settings')
+          .insert({ user_type: user, anniversary: anniversaries[user] });
+      }
+    }
+
+    // 保存完成记录
+    const doneIndices = Array.from(done);
+    const { data: existingDone } = await supabase
+      .from('completed_things')
+      .select('*')
+      .eq('user_type', user);
+
+    if (existingDone) {
+      const existingSet = new Set(existingDone.map(d => d.thing_index));
+      const toDelete = existingDone
+        .filter(d => !doneIndices.includes(d.thing_index))
+        .map(d => d.id);
+
+      if (toDelete.length > 0) {
+        await supabase.from('completed_things').delete().in('id', toDelete);
+      }
+
+      const toInsert = doneIndices
+        .filter(i => !existingSet.has(i))
+        .map(i => ({
+          user_type: user,
+          thing_index: i,
+          thing_name: THINGS[i]?.[0] || ''
+        }));
+
+      if (toInsert.length > 0) {
+        await supabase.from('completed_things').insert(toInsert);
+      }
+    }
+
+    // 保存徽章
+    for (let i = 0; i < badges.length; i++) {
+      await supabase
+        .from('badges')
+        .update({ unlocked: badges[i][2] === '已解锁' })
+        .eq('id', i);
+    }
+  } catch (err) {
+    console.error('保存云端数据失败:', err);
+  }
+}
+
+// ==================== 本地存储 ====================
+function saveLocal() {
+  localStorage.setItem('memories_' + currentUser, JSON.stringify(memories));
+  localStorage.setItem('letters_' + currentUser, JSON.stringify(letters));
+  localStorage.setItem('done_' + currentUser, JSON.stringify([...done]));
+  localStorage.setItem('anniversaries', JSON.stringify(anniversaries));
+  localStorage.setItem('badges', JSON.stringify(badges));
+}
+
+function loadLocal() {
+  memories = JSON.parse(localStorage.getItem('memories_' + currentUser) || '[]');
+  letters = JSON.parse(localStorage.getItem('letters_' + currentUser) || '[]');
+  done = new Set(JSON.parse(localStorage.getItem('done_' + currentUser) || '[]'));
+  anniversaries = JSON.parse(localStorage.getItem('anniversaries') || '{}');
+  badges = JSON.parse(localStorage.getItem('badges') || '[]');
+
+  // 如果徽章为空，使用默认值
+  if (badges.length === 0) {
+    badges = [
+      ['💗', '初次心动', '未解锁'],
+      ['🌙', '满月快乐', '未解锁'],
+      ['🎉', '百天纪念', '未解锁'],
+      ['🏆', '完成10件事', '未解锁'],
+      ['🌟', '十全十美', '未解锁'],
+      ['🎬', '电影达人', '未解锁'],
+      ['✈️', '旅行家', '未解锁'],
+      ['🍳', '厨房搭档', '未解锁']
+    ];
+  }
+}
+
+// ==================== 天数计算 ====================
+function updateDays() {
+  const anniversary = anniversaries[currentUser];
+  const daysEl = document.getElementById('daysDisplay');
+  const dateEl = document.getElementById('anniversaryDate');
+
+  if (!anniversary) {
+    daysEl.textContent = '0';
+    dateEl.textContent = '📅 设置纪念日开始计数';
+    return;
+  }
+
+  const annivDate = new Date(anniversary + 'T00:00:00');
+  const now = new Date();
+  const diff = now - annivDate;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  daysEl.textContent = days >= 0 ? days : 0;
+  dateEl.textContent = `📅 ${anniversary}`;
+}
+
+// ==================== 渲染函数 ====================
+function renderAll() {
+  renderMemories();
+  renderLetters();
+  renderThings();
+  renderBadges();
+  renderSettings();
+  updateDays();
+}
+
+function renderMemories() {
+  const el = document.getElementById('memoriesList');
+  if (memories.length === 0) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">💭</div>
+        <p>还没有回忆，点击上方按钮添加第一条吧</p>
+      </div>`;
+    return;
+  }
+  el.innerHTML = memories.map((m, i) => {
+    const scoreClass = m.score >= 4 ? 'high' : m.score >= 2 ? 'mid' : 'low';
+    const scoreStars = '⭐'.repeat(m.score);
+    return `
+      <div class="card memory-card">
+        <button class="edit-btn" onclick="editMemory(${i})">✏️</button>
+        <button class="delete-btn" onclick="deleteMemory(${i})">✕</button>
+        ${m.title ? `<div class="memory-title">${m.title}</div>` : ''}
+        <div class="memory-text">${m.text}</div>
+        ${m.photo ? `<img src="${m.photo}" class="memory-photo" onerror="this.style.display='none'">` : ''}
+        <div class="memory-score ${scoreClass}">${scoreStars} ${m.score}分</div>
+        ${m.date ? `<div class="memory-date">📅 ${m.date}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function renderLetters() {
+  const el = document.getElementById('lettersList');
+  if (letters.length === 0) {
+    el.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">💌</div>
+        <p>还没有碎碎念，写一条吧</p>
+      </div>`;
+    return;
+  }
+  el.innerHTML = letters.map((l, i) => {
+    const color = l.from === 'boy' ? '#4facfe' : '#ff6b9d';
+    return `
+      <div class="card letter-card" style="border-left-color: ${color}">
+        <button class="delete-btn" onclick="deleteLetter(${i})">✕</button>
+        <div class="letter-from" style="color: ${color}">
+          ${l.from === 'boy' ? '🌟 他' : '💖 她'} 说：
+        </div>
+        <div class="letter-msg">${l.msg}</div>
+        ${l.date ? `<div class="letter-date">📅 ${l.date}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function renderThings() {
+  const el = document.getElementById('thingsList');
+  el.innerHTML = THINGS.map((t, i) => `
+    <div class="thing-card">
+      <div class="thing-info">
+        <div class="thing-name">${t[0]}</div>
+        <div class="thing-count">${t[2]}</div>
+      </div>
+      <button class="thing-toggle ${done.has(i) ? 'done' : 'undone'}" onclick="toggle(${i})"></button>
+    </div>
+  `).join('');
+
+  const count = done.size;
+  document.getElementById('completedCount').textContent = `${count}/${THINGS.length}`;
+  document.getElementById('progressFill').style.width = `${(count / THINGS.length) * 100}%`;
+
+  checkBadges();
+}
+
+function renderBadges() {
+  const el = document.getElementById('badgesGrid');
+  el.innerHTML = badges.map((b, i) => `
+    <div class="badge-item ${b[2] === '已解锁' ? 'unlocked' : ''}">
+      <div class="badge-icon">${b[0]}</div>
+      <div class="badge-name">${b[1]}</div>
+      <div class="badge-name" style="font-size:0.7rem;opacity:0.6">${b[2]}</div>
+    </div>
+  `).join('');
+}
+
+function renderSettings() {
+  const anniv = anniversaries[currentUser];
+  document.getElementById('settingAnniversary').textContent = anniv || '未设置';
+  document.getElementById('settingCurrentUser').textContent = currentUser === 'boy' ? '他' : '她';
+}
+
+// ==================== 徽章检测 ====================
+function checkBadges() {
+  const count = done.size;
+  const dayText = document.getElementById('daysDisplay').textContent;
+  const days = parseInt(dayText) || 0;
+
+  // 初次心动 - 第1天
+  if (days >= 1 && badges[0]) {
+    unlockBadge(0);
+  }
+  // 满月快乐 - 30天
+  if (days >= 30 && badges[1]) {
+    unlockBadge(1);
+  }
+  // 百天纪念 - 100天
+  if (days >= 100 && badges[2]) {
+    unlockBadge(2);
+  }
+  // 完成10件事 - 打卡满10个
+  if (count >= 10 && badges[3]) {
+    unlockBadge(3);
+  }
+  // 十全十美 - 打卡满10个且超过100天
+  if (count >= 10 && days >= 100 && badges[4]) {
+    unlockBadge(4);
+  }
+  // 电影达人 - 回忆超过10条
+  if (memories.length >= 10 && badges[5]) {
+    unlockBadge(5);
+  }
+  // 旅行家 - 回忆超过20条
+  if (memories.length >= 20 && badges[6]) {
+    unlockBadge(6);
+  }
+  // 厨房搭档 - 碎碎念超过30条
+  if (letters.length >= 30 && badges[7]) {
+    unlockBadge(7);
+  }
+}
+
+async function unlockBadge(idx) {
+  if (badges[idx] && badges[idx][2] !== '已解锁') {
+    badges[idx][2] = '已解锁';
+    renderBadges();
+    toast(`🏆 解锁徽章：${badges[idx][1]}！`);
+    saveLocal();
+    await saveToSupabase(currentUser);
+  }
+}
+
+// ==================== 打卡切换 ====================
+async function toggle(i) {
+  if (done.has(i)) {
+    done.delete(i);
+  } else {
+    done.add(i);
+  }
+  saveLocal();
+  renderThings();
+  renderStats();
+  checkBadges();
+  await saveToSupabase(currentUser);
+}
+
+function renderStats() {
+  const count = done.size;
+  document.getElementById('completedCount').textContent = `${count}/${THINGS.length}`;
+  document.getElementById('progressFill').style.width = `${(count / THINGS.length) * 100}%`;
+}
+
+// ==================== 模态框 ====================
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function hideModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+});
+
+// ==================== 回忆操作 ====================
+async function saveMemory() {
+  const title = document.getElementById('memTitle').value.trim();
+  const text = document.getElementById('memText').value.trim();
+  const score = parseInt(document.getElementById('memScore').value) || 0;
+  const photo = document.getElementById('memPhoto').value.trim();
+  const id = document.getElementById('memId');
+
+  if (!text) {
+    toast('请输入内容');
+    return;
+  }
+
+  const now = new Date();
+  const date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+  if (id.value) {
+    // 编辑
+    const memId = memories[parseInt(id.value)].id;
+    memories[parseInt(id.value)] = { id: memId, title, text, score, photo, date };
+
+    await supabase
+      .from('memories')
+      .update({ title, text, score, photo, date })
+      .eq('id', memId);
+
+    toast('✅ 已更新');
+  } else {
+    // 添加
+    const mem = { id: null, title, text, score, photo, date };
+    memories.push(mem);
+
+    const { data, error } = await supabase
+      .from('memories')
+      .insert({ user_type: currentUser, title, text, score, photo, date })
+      .select('id')
+      .single();
+
+    if (data && !error) mem.id = data.id;
+    toast('✅ 已添加');
+  }
+
+  saveLocal();
+  renderMemories();
+  checkBadges();
+  hideModal('memoryModal');
+  resetMemoryForm();
+}
+
+async function deleteMemory(idx) {
+  if (confirm('确定删除这条回忆吗？')) {
+    const memId = memories[idx].id;
+    memories.splice(idx, 1);
+
+    if (memId) {
+      await supabase.from('memories').delete().eq('id', memId);
+    }
+
+    saveLocal();
+    renderMemories();
+    checkBadges();
+    toast('🗑️ 已删除');
+  }
+}
+
+function editMemory(idx) {
+  const m = memories[idx];
+  document.getElementById('memId').value = idx;
+  document.getElementById('memTitle').value = m.title || '';
+  document.getElementById('memText').value = m.text || '';
+  document.getElementById('memScore').value = m.score || 1;
+  document.getElementById('memPhoto').value = m.photo || '';
+  document.getElementById('memoryModalTitle').textContent = '编辑回忆';
+  openModal('memoryModal');
+}
+
+function resetMemoryForm() {
+  document.getElementById('memId').value = '';
+  document.getElementById('memTitle').value = '';
+  document.getElementById('memText').value = '';
+  document.getElementById('memScore').value = '4';
+  document.getElementById('memPhoto').value = '';
+  document.getElementById('memoryModalTitle').textContent = '添加回忆';
+}
+
+// ==================== 碎碎念操作 ====================
+async function saveLetter() {
+  const msg = document.getElementById('letterMsg').value.trim();
+  const id = document.getElementById('letterId');
+
+  if (!msg) {
+    toast('请输入内容');
+    return;
+  }
+
+  const now = new Date();
+  const date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+
+  if (id.value) {
+    const letterId = letters[parseInt(id.value)].id;
+    letters[parseInt(id.value)] = { id: letterId, from: currentUser, msg, date };
+
+    await supabase
+      .from('letters')
+      .update({ msg, date })
+      .eq('id', letterId);
+
+    toast('✅ 已更新');
+  } else {
+    const letter = { id: null, from: currentUser, msg, date };
+    letters.push(letter);
+
+    const { data, error } = await supabase
+      .from('letters')
+      .insert({ user_type: currentUser, from_user: currentUser, msg, date })
+      .select('id')
+      .single();
+
+    if (data && !error) letter.id = data.id;
+    toast('✅ 已发送');
+  }
+
+  saveLocal();
+  renderLetters();
+  checkBadges();
+  hideModal('letterModal');
+  document.getElementById('letterId').value = '';
+  document.getElementById('letterMsg').value = '';
+  document.getElementById('letterModalTitle').textContent = '写碎碎念';
+}
+
+async function deleteLetter(idx) {
+  if (confirm('确定删除这条碎碎念吗？')) {
+    const letterId = letters[idx].id;
+    letters.splice(idx, 1);
+
+    if (letterId) {
+      await supabase.from('letters').delete().eq('id', letterId);
+    }
+
+    saveLocal();
+    renderLetters();
+    checkBadges();
+    toast('🗑️ 已删除');
+  }
+}
+
+// ==================== 设置操作 ====================
+async function saveSettings() {
+  const date = document.getElementById('anniversaryDateInput').value;
+  if (date) {
+    anniversaries[currentUser] = date;
+    updateDays();
+    saveLocal();
+    await saveToSupabase(currentUser);
+    toast('✅ 设置已保存');
+  }
+  hideModal('settingsModal');
+}
+
+// ==================== 页面切换 ====================
+function showSection(name) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+
+  event.target.classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
+}
+
+// ==================== 切换用户 ====================
+async function switchUser() {
+  saveLocal();
+  await saveToSupabase(currentUser);
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('userScreen').style.display = 'flex';
+  currentUser = null;
+  localStorage.removeItem('currentUser');
+}
+
+// ==================== 导出数据 ====================
+function exportData() {
+  const data = {
+    user: currentUser,
+    memories: memories,
+    letters: letters,
+    done: [...done],
+    anniversaries: anniversaries,
+    badges: badges,
+    exportedAt: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `universe-backup-${currentUser}-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('📤 数据已导出');
+}
+
+// ==================== Toast 提示 ====================
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
+}
+
+// ==================== 启动 ====================
+init();
+</script>
+
+</body>
+</html>
