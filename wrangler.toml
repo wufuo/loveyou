@@ -1,3 +1,7 @@
 name = "love-universe"
 compatibility_date = "2024-12-01"
 pages = true
+
+[vars]
+VITE_SUPABASE_URL="https://your-project.supabase.co"
+VITE_SUPABASE_ANON_KEY="your-anon-key-here"
